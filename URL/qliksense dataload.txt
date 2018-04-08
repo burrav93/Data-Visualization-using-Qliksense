@@ -1,0 +1,247 @@
+SurgicalTypeMap:
+MAPPING
+Load * Inline [
+   Type, Value
+   Elective, Elective
+   NonElective, Non Elective
+   DayCase, Day Case
+];
+
+ProviderMap:
+
+Mapping LOAD [Provider Full Name], [Provider ID] as [Quality Provider ID]
+FROM [lib://aa/Physicians1.qvd] (qvd);
+
+
+LOAD *
+FROM [lib://aa/OrdersProcedures1.qvd] (qvd);
+
+
+
+
+
+LOAD
+    "Provider First Name",
+    "Provider Last Name",
+    "Provider Full Name",
+    "Provider ID"
+FROM [lib://aa/Physicians1.qvd]
+(qvd);
+
+
+
+LOAD
+    "Practice ID",
+    "Practice Name"
+FROM [lib://aa/Practices1.qvd]
+(qvd);
+
+add only LOAD @1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @16, @17, @18, @19, @20, @21, 
+     @22, @23, @24, @25
+FROM [C:\Users\bvkka\Desktop\Qlik_sql\New folder\Final_QVDS_AfterTr\QualityMeasures1.qvd]
+(qvd, filters(
+Replace(14, right, StrCnd(null)),
+Remove(Row, RowCnd(CellValue, 14, StrCnd(null)))
+));
+
+LOAD
+    @1 as [Master Patient ID],
+    @2 as [sClinicalMeasureKey],
+    @3 as [Quality Measure Ctr],
+    @4 as  [Quality Measure ID],
+    @5 as [Quality Provider ID],
+    @6 as [Quality Provider Name],
+    @7 as [Is Compliant Flag],
+    @8 as [Is Not Compliant Flag],
+    @9 as [Quality Measure Hospital ID],
+    @10 as [Quality Hospital Name],
+    @11 as [Measure Name],
+    @12 as [Submeasure Name],
+    @13 as [Measure Type] ,
+    @14 as [Measure Attribute 1],
+    @16 as   [Measure Points],
+    @17 as [Measure Target] ,
+    @18 as [Measure Hedis75] ,
+    @19 as  [Measure Hedis90] ,
+    @20 as [Measure Effective Date] ,
+    @21 as [Measure End Date] ,
+    @22 as [Latest Measure Flag],
+    @23 as [Past Measure Flag],
+    @24 as [Practice ID],
+    @25 as [Quality Practice Name]
+FROM [lib://aa/QualityMeasures1.qvd]
+(qvd);
+
+
+
+
+
+
+
+
+LOAD *
+FROM [lib://aa/Results1.qvd] (qvd);
+
+
+
+
+
+
+LOAD *
+FROM [lib://aa/Vitals1.qvd] (qvd);
+
+
+
+Encounters1:
+LOAD
+    "Master Patient ID",
+    "Patient Encounter ID",
+    "Patient Admission Datetime",
+    "Patient LOS",
+    "Patient LOS Bucket",
+    "Patient LOS Bucket Sort",
+    "Admitting Provider ID",
+    "Admitting Provider Name",
+    "Discharging Provider ID",
+    "Discharging Provider Name",
+    "Attending Provider ID",
+    "Attending Provider Name",
+    "Patient Discharge Datetime",
+    "Department ID",
+    "Hospital Account ID",
+    "Patient InICU Flag",
+    "Patient Admitted Flag",
+    "Patient Readmission Flag",
+    "Patient Inpatient Readmission Flag",
+    "Patient Admission Date",
+    "Patient Admission Month",
+    "Patient Admission Year",
+    "Patient Admission YM",
+    "Patient Admission DOW",
+    "Patient Admission Hour",
+    "Patient Admissioin Qtr",
+    "Patient Admissioin YQtr",
+    "Patient Discharge Date",
+    "Patient Discharge Month",
+    "Patient Discharge Year",
+    "Patient Discharge YM",
+    "Patient Discharge DOW",
+    "Patient Discharge Hour",
+    "Patient Discharge Qtr",
+    "Patient Discharge YQtr"
+FROM [lib://aa/Encounters1.qvd]
+(qvd);
+
+inner Keep(Encounters1)
+
+[Surgical Encounters1]:
+LOAD 
+    "Master Patient ID",
+    "Surgery ID",
+    "Surgical Admission Date",
+    "Surgical Admission Month",
+    "Surgical Admission Year",
+    "Surgical Admission YM",
+    "Surgical Admission DOW",
+    "Surgical Admissioin Qtr",
+    "Surgical Admissioin YQtr",
+    "Surgical Discharge Date",
+    "Surgical Discharge Month",
+    "Surgical Discharge Year",
+    "Surgical Discharge YM",
+    "Surgical Discharge DOW",
+    "Surgical Discharge Qtr",
+    "Surgical Discharge YQtr",
+    "Surgical LOS",
+    "Surgical DRG Description",
+    "Surgical Type",
+    "Surgical Total Cost",
+    "Surgical Total Profit",
+    "Surgical Unit Name",
+    "Surgical Admission Type",
+    "Surgical Admission Desecription",
+    "Surgical Admission Group",
+    "Surgical Discharge Type",
+    "Surgical Discharge Description",
+    "Surgeon ID",
+    "Surgeon Name",
+    "Surgical Specialty"
+FROM [lib://aa/Surgical Encounters1.qvd]
+(qvd);
+
+
+
+
+
+
+
+inner keep([Surgical Encounters1])
+SurgicalCosts1:
+LOAD *
+FROM [lib://aa/SurgicalCosts1.qvd] (qvd);
+Inner Keep([Surgical Encounters1])
+Patients1:
+LOAD
+    "Master Patient ID",
+    "Patient Address Number",
+    "Patient Address Street",
+    "Patient Address Full",
+    "Patient City",
+    "Patient Zip Code",
+    "Patient County",
+    "Patient State",
+    "Patient Country",
+    "Patient Latitude",
+    "Patient Longitude",
+    "Patient Name",
+    "Patient Gender",
+    "Patient LACE Sctore",
+    "Patient Geography Loaded",
+    "Patient DOB",
+    "Patient Marital Status",
+    "Patient Primary Language",
+    "Patient Is Citizen Flag",
+    "Patient Is Deceased Flag",
+    "Patient PCP Type",
+    "Patient PCP ID",
+    "Patient Ethnicity",
+    GeoMakePoint([Patient Latitude], [Patient Longitude]) as 'Patient_Location'
+FROM [lib://aa/Patients1.qvd]
+(qvd);
+
+
+
+inner keep(Encounters1)
+LOAD
+    "Department Name",
+    "Department ID",
+    "Hospital ID",
+    
+    if([Speciality Description]='Missing Value',[Department Name],[Speciality Description]) as [Speciality Description]
+FROM [lib://aa/Departments1.qvd]
+(qvd);
+
+
+inner keep(Encounters1)
+LOAD *
+FROM [lib://aa/Accounts1.qvd] (qvd);
+inner keep(Departments1)
+Hospitals1:
+LOAD
+    "Hospital ID",
+    "Hospital Name",
+    "Hospital Address Number",
+    "Hospital Address Street",
+    "Hospital Address Full",
+    "Hospital City",
+    "Hospital Zip Code",
+    "Hospital County",
+    "Hospital State",
+    "Hospital Country",
+    "Hospital Latitude",
+    "Hospital Longitude",
+    GeoMakePoint([Hospital Latitude], [Hospital Longitude]) as 'Hospital_Location'
+FROM [lib://aa/Hospitals1.qvd]
+(qvd);
+
+set test='Respiration count: Normal'

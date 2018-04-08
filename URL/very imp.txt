@@ -1,0 +1,221 @@
+https://pennsylvania.hometownlocator.com/maps/feature-map,ftc,2,fid,1173579,n,dufur%20hospital.cfm
+
+https://www.mdcalc.com/lace-index-readmission
+
+https://wordpress.org/support/topic/google-maps-api-error-missingkeymaperror-1/
+
+https://developers.google.com/maps/documentation/javascript/get-api-key
+
+http://branch.qlik.com/#!/project/56728f52d1e497241ae6982c
+
+http://us-d.demo.qlik.com/QvAJAXZfc/opendoc.htm?document=qvdocs%2FUS%20Healthcare%20Cost%20Facts.qvw&host=demo11
+
+https://sense-demo.qlik.com/sso/qps/logout?targetUri=https://sense-demo.qlik.com/sso/sense/app/9b9f348c-b870-41f0-928e-223167c5cc3b/sheet/acd1e29f-ec5b-4f8c-a94f-7691ba0caa28/state/analysis?
+
+https://community.qlik.com/docs/DOC-19245
+
+
+
+
+
+
+([Total Account Charge $]+[Total Account Adjustment $]+[Total Account Payment $]+[Total Account Balance])
+
+
+
+
+=count({1<Measure Attribute1={[Chronic Condition Care]}>}Patient Name)
+
+If($(vAge) <=17, '<17 Years',
+
+  IF($(vAge)>= 17 and $(vAge) < 25, '17 - 25',
+
+  IF($(vAge) >= 25 and $(vAge) < 30, '25 - 30',
+
+  IF($(vAge) >= 30 and $(vAge)< 40, '30 - 40',
+
+  IF($(vAge) >= 40 and $(vAge)< 50, '40 - 50',
+
+  IF($(vAge) >= 50 and $(vAge) < 60, '50 - 60',
+
+  '60+')))))) 
+ 
+
+Age(today(),[Patient DOB])
+
+if ( [$(vAge)]>=10 and [$(vAge)]<25, green(128),
+     if ([$(vAge)]>=25 and [$(vAge)] <30, yellow(128),
+     if ([$(vAge)]>=30 and [$(vAge)] <40, blue(128),
+     if ([$(vAge)]>=40 and [$(vAge)] <50, green(128),
+     if ([$(vAge)]>=50 and [$(vAge)] <60, darkgray(128),
+
+     if ([$(vAge)]>50 and [$(vAge)]<60,Red(128),lightgray(128)
+)     
+)
+)
+
+
+if($(AgeRange) = '60+', 'green', 
+if($(AgeRange) = '50 - 60'), 'yellow', 
+if(($AgeRange) = '40 - 50'), 'blue',
+if($(AgeRange) = '30 - 40'), 'green',
+if($(AgeRange) = '25 - 30'), 'darkgray',
+if($(AgeRange) = '17 - 25' , 'lightgray',
+'red')))
+
+
+
+If([Patient LACE Sctore] <6, '<6 low',
+
+  IF([Patient LACE Sctore]>= 6 and [Patient LACE Sctore] < 10, '6-10 okay',
+
+  IF([Patient LACE Sctore] >= 10 and [Patient LACE Sctore] < 15, '10-15 High',
+
+  IF([Patient LACE Sctore] >= 15 and [Patient LACE Sctore]< 20, '15-20 Very High',
+'Extreme score'
+
+  ))))
+
+
+
+
+=pick(WildMatch([Speciality Description],'Cardiology','Obstertrics & Gynecology','Oncology','Orthopedic','Radiation Oncology','Radiology','Rehabilitation','Telemetry'),'Cardiology','Obstertrics & Gynecology','Oncology','Orthopedic','Radiation Oncology','Radiology','Rehabilitation','Telemetry')
+
+
+AIzaSyCnM6aLQwt3yCHXasF23q85ea0p8ElChjU
+
+
+
+
+
+/****** Script for SelectTopNRows command from SSMS  ******/
+SELECT *
+  FROM [Health].[dbo].[SurgicalEncounters1]
+
+  alter table [dbo].[SurgicalEncounters1]
+  add test1 varchar(5000)
+
+  update SurgicalEncounters1
+  set test1 =right( [Surgical Discharge Type],(len([Surgical Discharge Type])-CHARINDEX('"',[Surgical Discharge Type]))) where [Surgical Discharge Type] like '"%'
+  
+  update SurgicalEncounters1
+  set test1 =left( [Surgical Discharge Type],(CHARINDEX('"',[Surgical Discharge Type])-1)) where [Surgical Discharge Type] like '%"'
+  
+  update SurgicalEncounters1
+  set test1 = [Surgical Discharge Type] where test1 is null
+
+
+
+Count(distinct([Patient Encounter ID]))
+
+
+=count(
+{$<[Surgical Admission Type]={'Maternity'}>}
+distinct([Surgery ID]))
+
+
+
+=count(
+{$ <[Surgical Admission Type]={'Emergency'}>}
+distinct([Surgery ID]))
+
+
+
+=count(
+{$ <[Surgical Admission Type]=>}
+distinct([Surgery ID]))
+
+
+
+=pick(WildMatch([Surgical Resource Type],'Anaesthetics','Blood','Cardiology','CardRehab','CentSurg','ConsultSWMed','Diet','DrugMap','Endoscopy','OR Suite','OT','Pathology','Physio','Prosthesis','Radiology','Speech'),'Anaesthetics','Blood','Cardiology','CardRehab','CentSurg','ConsultSWMed','Diet','DrugMap','Endoscopy','OR Suite','OT','Pathology','Physio','Prosthesis','Radiology','Speech)
+
+
+
+
+If([BloodPressureSystolicNBR] < 120, 'Normal',
+
+  IF([BloodPressureSystolicNBR]>= 120 and [BloodPressureSystolicNBR] < 139, 'At Risk Pre-Hypertension',
+
+  IF([BloodPressureSystolicNBR] >= 140 , 'High',
+
+  )))
+
+[vBPSystolic]
+
+IF([RespirationCNT]>= 12 and [RespirationCNT] < 21, 'Respiration count: Normal',
+
+  IF([RespirationCNT]>= 25 , 'Respiration count: Abnormal',
+  IF ([RespirationCNT] < 12, 'Respiration count: Abnormal'
+
+  
+
+  )))
+
+
+vRespirationCNT
+
+
+
+
+=count(
+{1 <[vRespirationCNT]={'Respiration count: Abnormal'}>}
+distinct([Patient Encounter ID]))
+
+
+=count(
+{1 <[=$(vRespirationCNT)]={'Respiration count: Abnormal'}>}
+distinct([Patient Encounter ID]))
+
+
+
+
+
+
+
+
+
+
+
+
+
+#ffcf02
+#000000
+
+url(/content/default/Qlik_default_orange.png)
+
+#f2f2f2
+
+
+
+c9cacc
+
+
+
+#e6e6e6
+
+
+We can see that the insurance coverage is more for patients whose age is 60+ and also for age group of 50-60
+
+https://www.google.com/search?safe=off&rlz=1C1CHZL_enUS730US730&biw=1500&bih=870&tbm=isch&sa=1&ei=b2SsWsyuF8XZjwS3lp-YDw&q=sheet+background+image+qlik&oq=sheet+background+image+qlik&gs_l=psy-ab.3...20367.22941.0.23159.12.10.0.0.0.0.606.1467.1j1j1j0j1j1.5.0....0...1c.1.64.psy-ab..8.1.606...0i8i30k1.0._VBnRXQFDAQ#imgrc=Q76PYWPDmqQ0uM:
+
+
+
+1px solid rgb(68, 119, 170)
+
+
+
+If([BodyMassIndexNBR] < 18.5, 'Under Weight',
+
+  IF([BodyMassIndexNBR]>= 18.5 and [BodyMassIndexNBR] <= 24.9, 'Normal Weight',
+IF([BodyMassIndexNBR]>= 25 and [BodyMassIndexNBR] <=29.9 , 'Overweight',
+  IF([BodyMassIndexNBR] >= 30 , 'Obese',
+
+
+  )))
+
+
+
+
+vBPDiastolic
+vBPSystolic
+vBMI
